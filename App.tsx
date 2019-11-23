@@ -20,7 +20,7 @@ interface AppProps {
   skipLoadingScreen: boolean;
 }
 
-const App: React.FC<AppProps> = () => {
+const App: React.FC<AppProps> = (props: AppProps) => {
   const [isLoadingComplete, setIsLoadingComplete] = React.useState(false);
   const loadResourcesAsync = async () => {
     await Promise.all([
