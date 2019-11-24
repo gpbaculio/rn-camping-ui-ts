@@ -86,5 +86,28 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "rgba(33, 23, 211, 0.2)",
     borderColor: "black"
+  },
+  camping: {
+    flex: 1,
+    flexDirection: "row",
+    borderBottomColor: "#A5A5A5",
+    borderBottomWidth: 0.5,
+    padding: 20
+  },
+  campingImage: {
+    width: width * 0.3,
+    height: width * 0.25,
+    borderRadius: 6
+  },
+  campingDetails: {
+    flex: 2,
+    paddingLeft: 20,
+    flexDirection: "column",
+    justifyContent: "space-around"
+  },
+  campingInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 14
   }
 });

@@ -1,4 +1,18 @@
-const campings = [
+export interface campingType {
+  id: number;
+  type: string;
+  name: string;
+  description: string;
+  rating: number;
+  distance: number;
+  price: string;
+  image: string;
+  latlng: {
+    latitude: number;
+    longitude: number;
+  };
+}
+const campings: campingType[] = [
   {
     id: 1,
     type: "rv",

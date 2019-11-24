@@ -1,3 +1,4 @@
+import { campingType } from "../../../mock/campings";
 import {
   SET_CAMPINGS,
   SET_FILTERS,
@@ -36,7 +37,7 @@ export interface campingReturnTypes {
     | typeof SET_FILTERS
     | typeof SET_LOADING
     | typeof SET_LOCATION;
-  payload: string | boolean | filtersPayloadType;
+  payload: string | boolean | filtersPayloadType | campingType[];
 }
 
 export type campingActionTypes = campingReturnTypes;

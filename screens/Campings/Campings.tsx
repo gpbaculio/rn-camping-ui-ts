@@ -3,18 +3,12 @@ import {
   Text,
   SafeAreaView,
   View,
-  StyleSheet,
-  Dimensions,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  ImageBackground
 } from "react-native";
 import { styles } from "./styles";
-import {
-  Ionicons,
-  FontAwesome,
-  Foundation,
-  SimpleLineIcons
-} from "@expo/vector-icons";
+import { Ionicons, FontAwesome, Foundation } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { RootState } from "../../modules/index";
 import { connect } from "react-redux";
@@ -31,6 +25,7 @@ import {
 import { width as dimensionWidth, height as dimensionHeight } from "./styles";
 // mock data
 import campings from "../../mock/campings";
+import { campingType } from "../../mock/campings";
 
 const mapStateToProps = ({ campings }: RootState) => ({
   campingSpots: campings.spots,
@@ -161,7 +156,9 @@ const Campings: React.FC<CampingsProps> = ({
     const mapSpots =
       filters.type === "all"
         ? campingSpots
-        : campingSpots.filter(camping => camping.type === filters.type);
+        : (campingSpots as campingType[]).filter(
+            camping => camping.type === filters.type
+          );
     return (
       <View style={styles.map}>
         <MapView
@@ -183,8 +180,7 @@ const Campings: React.FC<CampingsProps> = ({
               <View style={styles.myMarkerDot} />
             </View>
           </Marker>
-
-          {mapSpots.map(marker => (
+          {(mapSpots as campingType[]).map(marker => (
             <Marker key={`marker-${marker.id}`} coordinate={marker.latlng}>
               {campingMarker(marker)}
             </Marker>
@@ -193,10 +189,66 @@ const Campings: React.FC<CampingsProps> = ({
       </View>
     );
   };
+  const renderList = () => {
+    const mapSpots: campingType[] =
+      filters.type === "all"
+        ? campings
+        : campings.filter(camping => camping.type === filters.type);
+    return mapSpots.map(camping => {
+      return (
+        <View key={`camping-${camping.id}`} style={styles.camping}>
+          <ImageBackground
+            style={styles.campingImage}
+            imageStyle={styles.campingImage}
+            source={{ uri: camping.image }}
+          />
+          <View style={styles.campingDetails}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                justifyContent: "center"
+              }}
+            >
+              <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                {camping.name}
+              </Text>
+              <Text style={{ fontSize: 12, color: "#A5A5A5", paddingTop: 5 }}>
+                {camping.description}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <View style={styles.campingInfo}>
+                <FontAwesome name="star" color="#FFBA5A" size={12} />
+                <Text style={{ marginLeft: 4, color: "#FFBA5A" }}>
+                  {camping.rating}
+                </Text>
+              </View>
+              <View style={styles.campingInfo}>
+                <FontAwesome name="location-arrow" color="#FF7657" size={12} />
+                <Text style={{ marginLeft: 4, color: "#FF7657" }}>
+                  {camping.distance} miles
+                </Text>
+              </View>
+              <View style={styles.campingInfo}>
+                <Ionicons name="md-pricetag" color="black" size={12} />
+                <Text style={{ marginLeft: 4, color: "black" }}>
+                  {camping.price}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      );
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       {renderHeader()}
-      <ScrollView style={styles.container}>{renderMap()}</ScrollView>
+      <ScrollView style={styles.container}>
+        {renderMap()}
+        {renderList()}
+      </ScrollView>
     </SafeAreaView>
   );
 };
