@@ -1,9 +1,10 @@
-import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
 import { Campings } from "../screens/Campings";
+import { Settings } from "../screens/Settings";
 
 const ScreensNavigation = createStackNavigator({
-  Campings
+  Campings,
+  Settings
 });
 
 export default ScreensNavigation;
